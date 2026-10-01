@@ -1,0 +1,124 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>CWC 2027 | Match Centre</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Barlow:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#3a0a18;--c1:#5a1228;--c2:#4a0e1e;--gold:#f2b705;--green:#2e9e5b;--mut:#c8c8c8;--tx:#fff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}*{box-sizing:border-box}
+body{margin:0;background:var(--bg);background-image:repeating-linear-gradient(135deg,rgba(242,183,5,.04) 0 2px,transparent 2px 28px),radial-gradient(circle at 90% 0,rgba(242,183,5,.12),transparent 40%);color:var(--tx);font:16px Barlow,Arial,sans-serif;min-height:100%}
+h1,h2,.num,.big{font-family:Oswald,Impact,sans-serif;margin:0}
+header{padding:22px 4vw 8px;border-bottom:1px solid rgba(242,183,5,.35)}
+h1{font-size:clamp(24px,4vw,44px);color:var(--gold);letter-spacing:.02em}
+.sub{color:var(--mut)}nav,.filters{display:flex;flex-wrap:wrap;gap:8px;padding:12px 4vw}
+nav button,select,.chip{background:transparent;color:var(--tx);border:1px solid var(--gold);border-radius:20px;padding:7px 16px;font:inherit;cursor:pointer}
+nav button.on{background:var(--gold);color:#3a0a18;font-weight:600}select{background:var(--c2)}
+main{padding:8px 4vw 40px;display:grid;gap:16px}.row{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--c1);border-radius:16px;padding:18px;box-shadow:0 6px 18px rgba(0,0,0,.3)}
+.card h2{color:var(--gold);font-size:18px;margin-bottom:12px;border-bottom:1px solid rgba(242,183,5,.3);padding-bottom:6px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:12px}
+.kpi{background:var(--c1);border-radius:16px;padding:14px;text-align:center}.kpi .num{font-size:44px;color:var(--gold)}.kpi.f .num{color:#5be08e}.kpi small{color:var(--mut)}
+.bar{display:grid;grid-template-columns:110px 1fr 28px;gap:8px;align-items:center;margin:5px 0;cursor:pointer;font-size:14px}
+.bar i{display:block;height:14px;border-radius:7px;background:linear-gradient(90deg,#c99700,var(--gold))}.bar.on i{outline:2px solid #fff}
+.j{display:flex;flex-direction:column;align-items:center;gap:2px}.j button{width:80%;padding:10px;border-radius:12px;border:1px solid var(--gold);background:var(--c2);color:#fff;font:600 15px Oswald,sans-serif;cursor:pointer}
+.j button.fin{background:var(--green);border-color:var(--gold)}.j span{color:var(--gold)}
+.cols{display:flex;align-items:flex-end;gap:3px;height:120px}.cols i{flex:1;background:var(--gold);border-radius:3px 3px 0 0;min-height:4px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:12px}
+.m{background:var(--c2);border-radius:14px;padding:14px;border-left:4px solid transparent}.m:nth-child(even){background:var(--c1)}
+.m.SF{border-color:var(--gold);box-shadow:0 0 14px rgba(242,183,5,.3)}.m.F{background:linear-gradient(135deg,#1f6b40,#2e9e5b);border:2px solid var(--gold)}
+.m .top{display:flex;justify-content:space-between;color:var(--gold);font:700 15px Oswald}.fx{font:700 20px Oswald;margin:10px 0;display:flex;justify-content:space-between;gap:8px}.fx em{color:var(--gold);font-style:normal}
+.m small{color:var(--mut);display:block}.m.F small{color:#fff}
+.tl{border-left:3px solid var(--gold);margin-left:10px;padding-left:18px}.tl .m{margin:0 0 12px;position:relative}.tl .m:before{content:"";position:absolute;left:-28px;top:18px;width:14px;height:14px;border-radius:50%;background:var(--gold)}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.d{min-height:74px;background:var(--c2);border-radius:8px;padding:4px;font-size:12px;color:var(--mut)}.hd{color:var(--gold);text-align:center;font-weight:600}
+.p{display:inline-block;margin:1px;padding:1px 5px;border-radius:5px;font-weight:700;color:#3a0a18;background:var(--gold);cursor:default}
+.p.G{background:#fff}.p.SS{background:#e8d8a8}.p.S7{background:#c99700}.p.F{background:#5be08e;font-size:15px}.d.F{background:var(--green);color:#fff;outline:3px solid var(--gold);min-height:92px;font-size:14px}
+.lg span{margin-right:12px;font-size:13px}#tip{position:fixed;pointer-events:none;background:#1c0409;border:1px solid var(--gold);border-radius:10px;padding:8px 12px;display:none;z-index:9;font-size:13px;max-width:240px}
+</style></head><body>
+<header><h1>🏆 ICC MEN'S CRICKET WORLD CUP 2027</h1><div class="sub">MATCH CENTRE &nbsp;|&nbsp; 02 OCT 2027 — 21 NOV 2027 &nbsp;|&nbsp; SOUTH AFRICA • ZIMBABWE • NAMIBIA</div></header>
+<nav id="nav"></nav><div class="filters" id="fl"></div><main id="app"></main><div id="tip"></div>
+<script>
+const R=`1,10-02,SS,QF,QF1,QF3,Windhoek
+2,10-04,SS,QF,QF1,QF2,Windhoek
+3,10-06,SS,QF,QF2,QF3,Windhoek
+4,10-07,G,A,India,Australia,Cape Town
+5,10-08,G,B,Pakistan,Afghanistan,Tshwane
+6,10-08,G,B,England,Bangladesh,Windhoek
+7,10-09,G,A,Zimbabwe,QF A,Bulawayo
+8,10-09,G,B,South Africa,New Zealand,Cape Town
+9,10-10,G,A,India,Pakistan,Johannesburg
+10,10-10,G,B,Sri Lanka,QF B,Windhoek
+11,10-11,G,A,Zimbabwe,Afghanistan,Bulawayo
+12,10-12,G,A,Australia,QF A,Paarl
+13,10-12,G,B,New Zealand,Bangladesh,Kugompo City
+14,10-13,G,B,England,Sri Lanka,Windhoek
+15,10-13,G,B,South Africa,QF B,Paarl
+16,10-14,G,A,India,Afghanistan,Tshwane
+17,10-15,G,A,Pakistan,QF A,Bloemfontein
+18,10-15,G,A,Zimbabwe,Australia,Harare
+19,10-16,G,B,Sri Lanka,Bangladesh,Durban
+20,10-16,G,B,South Africa,England,Gqeberha
+21,10-17,G,A,India,QF A,Bloemfontein
+22,10-17,G,B,New Zealand,QF B,Harare
+23,10-18,G,A,Australia,Afghanistan,Kugompo City
+24,10-19,G,A,Zimbabwe,Pakistan,Harare
+25,10-19,G,B,South Africa,Bangladesh,Durban
+26,10-20,G,B,New Zealand,Sri Lanka,Johannesburg
+27,10-20,G,B,England,QF B,Harare
+28,10-21,G,A,Afghanistan,QF A,Kugompo City
+29,10-22,G,A,New Zealand,Pakistan,Paarl
+30,10-22,G,B,South Africa,Sri Lanka,Johannesburg
+31,10-23,G,B,England,New Zealand,Gqeberha
+32,10-23,G,B,Bangladesh,QF B,Tshwane
+33,10-24,G,A,Zimbabwe,India,Victoria Falls
+34,10-25,S7,,A2,B3,Johannesburg
+35,10-26,S7,,B1,A3,Gqeberha
+36,10-27,S7,,B2,AB4,Tshwane
+37,10-28,S7,,A1,A2,Victoria Falls
+38,10-29,S7,,B1,B3,Kugompo City
+39,10-30,S7,,A3,AB4,Victoria Falls
+40,10-31,S7,,B2,B1,Johannesburg
+41,11-01,S7,,A2,B1,Victoria Falls
+42,11-02,S7,,B3,AB4,Cape Town
+43,11-03,S7,,B2,A3,Durban
+44,11-04,S7,,A1,B1,Paarl
+45,11-05,S7,,A2,AB4,Durban
+46,11-06,S7,,B2,B3,Bloemfontein
+47,11-07,S7,,A1,A3,Cape Town
+48,11-08,S7,,B1,AB4,Durban
+49,11-09,S7,,B2,A2,Gqeberha
+50,11-10,S7,,A3,B3,Bloemfontein
+51,11-11,S7,,A1,AB4,Gqeberha
+52,11-12,S7,,B2,B1,Cape Town
+53,11-13,S7,,A2,A3,Bloemfontein
+54,11-14,S7,,A1,B3,Durban
+55,11-17,SF,,SF1,SF2,Cape Town
+56,11-18,SF,,SF3,SF4,Tshwane
+57,11-21,F,,Winner SF1,Winner SF2,Johannesburg`.split("\n").map(l=>{const a=l.split(",");return{id:+a[0],d:a[1],st:a[2],g:a[3],t1:a[4],t2:a[5],v:a[6],mo:a[1]<"11"?"October":"November"}});
+const SN={SS:"Super Series",G:"Group Stage",S7:"Super 7",SF:"Semi Final",F:"Final"},HC={"Cape Town":"South Africa",Tshwane:"South Africa",Johannesburg:"South Africa",Durban:"South Africa",Bloemfontein:"South Africa",Gqeberha:"South Africa",Paarl:"South Africa",Bulawayo:"Zimbabwe",Harare:"Zimbabwe","Victoria Falls":"Zimbabwe","Kugompo City":"Zimbabwe",Windhoek:"Namibia"};
+const ph=/^(QF|A\d|B\d|AB4|SF|Winner)/,TEAMS=[...new Set(R.flatMap(m=>[m.t1,m.t2]))].filter(t=>!ph.test(t)).sort();
+let pg="Overview",f={};const $=s=>document.getElementById(s);
+const fd=d=>{const[m,x]=d.split("-");return["","","","","","","","","","","OCT","NOV"][+m]+" "+x};
+const data=()=>R.filter(m=>(!f.st||m.st==f.st)&&(!f.mo||m.mo==f.mo)&&(!f.t||m.t1==f.t||m.t2==f.t)&&(!f.v||m.v==f.v));
+const cnt=(a,k)=>{const o={};a.forEach(m=>{const x=typeof k=="function"?k(m):m[k];o[x]=(o[x]||0)+1});return Object.entries(o)};
+function bars(e,key,lab=x=>x,sort=1){if(sort)e.sort((a,b)=>b[1]-a[1]);const mx=Math.max(...e.map(x=>x[1]),1);return e.map(([k,n])=>`<div class="bar ${f[key]==k?"on":""}" data-k="${key}" data-v="${k}"><span>${lab(k)}</span><i style="width:${n/mx*100}%"></i><b>${n}</b></div>`).join("")}
+const card=m=>`<div class="m ${m.st}" data-id="${m.id}"><div class="top"><span>${fd(m.d)}</span><span>${m.st=="F"?"🏆 FINAL":"MATCH "+m.id}</span></div><div class="fx"><span>${m.t1}</span><em>VS</em><span style="text-align:right">${m.t2}</span></div><small>📍 ${m.v.toUpperCase()}</small><small>${SN[m.st]}${m.g?" • Group "+m.g:""}</small></div>`;
+const kp=(n,l,c="")=>`<div class="kpi ${c}"><div class="num">${n}</div><small>${l}</small></div>`;
+const cm=(a,s)=>a.filter(m=>m.st==s).length;
+function cal(mo,n,first){const a=data();let h=`<div class="card"><h2>${mo.toUpperCase()} 2027</h2><div class="cal">`+"Mon Tue Wed Thu Fri Sat Sun".split(" ").map(x=>`<div class="hd">${x}</div>`).join("")+"<div></div>".repeat(first);for(let d=1;d<=n;d++){const k=(mo=="October"?"10-":"11-")+String(d).padStart(2,"0"),ms=a.filter(m=>m.d==k);h+=`<div class="d ${ms.some(m=>m.st=="F")?"F":""}">${d}${ms.some(m=>m.st=="F")?" 🏆 FINAL":""}<br>${ms.map(m=>`<span class="p ${m.st}" data-id="${m.id}">M${m.id}</span>`).join("")}</div>`}return h+"</div></div>"}
+const V={
+Overview(){const a=data();return`<div class="kpis">${kp(a.length,"TOTAL MATCHES")}${kp(cm(a,"SS"),"SUPER SERIES")}${kp(cm(a,"G"),"GROUP STAGE")}${kp(cm(a,"S7"),"SUPER 7")}${kp(cm(a,"SF"),"SEMI FINALS")}${kp(cm(a,"F"),"FINAL","f")}${kp(new Set(a.map(m=>m.v)).size,"VENUES")}</div>
+<div class="row"><div class="card"><h2>TOURNAMENT JOURNEY</h2><div class="j">${["SS","G","S7","SF","F"].map((s,i)=>(i?"<span>↓</span>":"")+`<button class="${s=="F"?"fin":""}" data-k="st" data-v="${s}">${s=="F"?"🏆 ":""}${SN[s].toUpperCase()}${s=="SF"?"S":""}</button>`).join("")}</div></div>
+<div class="card"><h2>MATCHES BY VENUE</h2>${bars(cnt(a,"v"),"v")}</div></div>
+<div class="row"><div class="card"><h2>MATCHES BY STAGE</h2>${bars(cnt(a,"st"),"st",k=>SN[k],0)}</div><div class="card"><h2>MATCHES BY MONTH</h2>${bars(cnt(a,"mo"),"mo",x=>x,0)}</div></div>
+<div class="card"><h2>TOURNAMENT TIMELINE — MATCHES BY DATE</h2><div class="cols">${[...new Set(R.map(m=>m.d))].map(d=>{const n=a.filter(m=>m.d==d).length;return`<i style="height:${n*45}px;${n&&a.find(m=>m.d==d).st=="F"?"background:#5be08e":""};opacity:${n?1:.15}" data-t="${fd(d)}: ${n} match(es)"></i>`}).join("")}</div><small class="sub">02 OCT → 21 NOV (green = Final)</small></div>`},
+Schedule(){const a=data();return`<h2 style="color:var(--gold)">COMPLETE MATCH SCHEDULE <small class="sub">(${a.length})</small></h2><div class="cards">${a.map(card).join("")||"No matches for these filters."}</div>`},
+Teams(){const a=data(),t=f.t;return`<div class="card"><h2>SELECT TEAM</h2>${TEAMS.map(x=>`<span class="chip" style="${t==x?"background:var(--gold);color:#3a0a18;":""}margin:3px;display:inline-block" data-k="t" data-v="${x}">${x}</span>`).join("")}</div>`+(t?`<div class="kpis">${kp(a.length,t.toUpperCase()+" • MATCHES")}${kp(new Set(a.map(m=>m.v)).size,"VENUES")}${kp(new Set(a.map(m=>m.t1==t?m.t2:m.t1)).size,"OPPONENTS")}</div><div class="tl">${a.map(card).join("")}<div class="m SF"><div class="top"><span>NOV 17–18</span><span>SEMI FINAL</span></div><div class="fx"><span>${t}?</span></div><small>Knockouts: if ${t} qualifies</small></div><div class="m F"><div class="top"><span>NOV 21</span><span>🏆 FINAL</span></div><div class="fx"><span>Johannesburg</span></div></div></div><small class="sub">Super 7 fixtures use placeholders (A1–B3, AB4) until qualification is known.</small>`:`<div class="card">Pick a team to see its journey.</div>`)},
+Venues(){const a=data();return`<div class="row"><div class="card"><h2>MATCHES BY VENUE</h2>${bars(cnt(a,"v"),"v")}</div><div class="card"><h2>MATCHES BY HOST COUNTRY</h2>${bars(cnt(a,m=>HC[m.v]),"h",x=>x)}<h2 style="margin-top:18px">MATCHES BY STAGE</h2>${bars(cnt(a,"st"),"st",k=>SN[k],0)}</div></div><div class="card"><h2>DATE DISTRIBUTION</h2><div class="cols">${[...new Set(R.map(m=>m.d))].map(d=>`<i style="height:${a.filter(m=>m.d==d).length*45}px" data-t="${fd(d)}"></i>`).join("")}</div><small class="sub">Host countries are an assumption; map visual is not included in this prototype.</small></div>`},
+Calendar(){return`<div class="lg"><span>🟨 Super Series</span><span>⬜ Group</span><span>🟧 Super 7</span><span>🟩 Final</span></div><div class="row">${cal("October",31,4)}${cal("November",30,0)}</div>`}};
+function render(){$("nav").innerHTML=Object.keys(V).map(p=>`<button class="${p==pg?"on":""}" data-p="${p}">${p.toUpperCase()}</button>`).join("");
+const o=(l,k,vals)=>`<select data-s="${k}"><option value="">${l}</option>${vals.map(v=>`<option value="${v[0]}" ${f[k]==v[0]?"selected":""}>${v[1]}</option>`).join("")}</select>`;
+$("fl").innerHTML=o("All stages","st",Object.entries(SN))+o("All months","mo",[["October","October"],["November","November"]])+o("All teams","t",TEAMS.map(t=>[t,t]))+o("All venues","v",Object.keys(HC).sort().map(t=>[t,t]))+(Object.keys(f).length?`<span class="chip" data-clear>✕ Clear</span>`:"");
+$("app").innerHTML=V[pg]()}
+document.addEventListener("click",e=>{const t=e.target.closest("[data-p],[data-k],[data-clear]");if(!t)return;if(t.dataset.p)pg=t.dataset.p;else if(t.hasAttribute("data-clear"))f={};else{const k=t.dataset.k,v=t.dataset.v;if(k=="h"){return}f[k]=f[k]==v?"":v;if(!f[k])delete f[k]}render()});
+document.addEventListener("change",e=>{const k=e.target.dataset.s;if(!k)return;e.target.value?f[k]=e.target.value:delete f[k];render()});
+const tip=$("tip");document.addEventListener("mousemove",e=>{const el=e.target.closest("[data-id],[data-t]");if(!el){tip.style.display="none";return}let h=el.dataset.t;if(el.dataset.id){const m=R[el.dataset.id-1];h=`<b>Match ${m.id}</b> • ${fd(m.d)}<br>${m.t1} vs ${m.t2}<br>📍 ${m.v}<br>${SN[m.st]}${m.g?" • Group "+m.g:""}`}tip.innerHTML=h;tip.style.display="block";tip.style.left=Math.min(e.clientX+14,innerWidth-250)+"px";tip.style.top=e.clientY+14+"px"});
+render();
+</script></body></html>
